@@ -1,4 +1,4 @@
-use serde_json::{json, Value};
+use serde_json::{json, to_value, Value};
 
 use super::utils::{read_file, str_to_json, user_confirmation, write_file, MEMO_FILE_PATH};
 
@@ -9,10 +9,10 @@ pub fn add(k: String, v: String) {
     match json_value.get_mut(&k) {
         Some(value) => {
             println!("{} is already set", v);
-            if value.to_string() == json!(v).to_string() {
+            if *value == to_value(&v).unwrap() {
                 return;
             }
-            println!("Do you overwrite {} to {}? (yes/no)", value.to_string(), v);
+            println!("Do you overwrite {} to {}? (yes/no)", value, v);
             if !user_confirmation() {
                 return;
             }

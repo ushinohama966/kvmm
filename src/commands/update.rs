@@ -10,7 +10,7 @@ pub fn update(k: String, v: String) {
 
     match json_value.get_mut(&k) {
         Some(value) => {
-            if value_to_str_without_quotes(&value) == v {
+            if value_to_str_without_quotes(value) == v {
                 println!("{} is already set", &v);
                 return;
             }

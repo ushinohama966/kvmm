@@ -1,4 +1,4 @@
-use serde_json::{Value};
+use serde_json::Value;
 
 use super::utils::{read_file, str_to_json, value_to_str_without_quotes, MEMO_FILE_PATH};
 

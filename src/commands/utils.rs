@@ -3,7 +3,7 @@ use serde_json::{json, Result, Value};
 use std::fs::File;
 use std::io::{self, Read, Write};
 
-pub const MEMO_FILE_PATH: &'static str = "/home/lkl/project/kvmemo/memo.json";
+pub const MEMO_FILE_PATH: &str = "/home/lkl/project/kvmemo/memo.json";
 
 pub fn value_to_str_without_quotes(v: &Value) -> String {
     let mut options = to_string(v).unwrap();
