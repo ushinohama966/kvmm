@@ -25,7 +25,6 @@ pub enum Commands {
         key: String,
     },
     List {
-        // TODO: 一行ずつ表示する
         #[arg(short, long)]
         line: bool,
     },
