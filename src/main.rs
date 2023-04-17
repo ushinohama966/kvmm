@@ -22,5 +22,8 @@ fn main() {
         args::Commands::Get { key } => {
             commands::get::get(key);
         }
+        args::Commands::Init { force } => {
+            commands::init::init(force);
+        }
     }
 }

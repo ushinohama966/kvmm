@@ -32,4 +32,8 @@ pub enum Commands {
         #[arg(short, long)]
         key: String,
     },
+    Init {
+        #[arg(short, long)]
+        force: bool,
+    },
 }
