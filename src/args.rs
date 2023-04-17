@@ -32,7 +32,7 @@ pub enum Commands {
         #[arg(short, long)]
         key: String,
     },
-    Init {
+    Clean {
         #[arg(short, long)]
         force: bool,
     },
