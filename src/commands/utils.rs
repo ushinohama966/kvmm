@@ -12,13 +12,14 @@ pub fn value_to_str_without_quotes(v: &Value) -> String {
     options
 }
 
-pub fn init_memo_file(file_path: &str) {
+pub fn init_memo_file(file_path: &str) -> io::Result<()> {
     let mut file = File::create(file_path).unwrap();
     file.write_all("{}".as_bytes()).unwrap();
-    file.flush().unwrap()
+    file.flush().unwrap();
+    Ok(())
 }
 
-pub fn read_file(file_path: &str) -> Result<String> {
+pub fn read_file(file_path: &str) -> std::io::Result<String> {
     match File::open(file_path) {
         Ok(mut f) => {
             let mut contents = String::new();
@@ -29,7 +30,9 @@ pub fn read_file(file_path: &str) -> Result<String> {
         Err(e) => {
             println!("{}", e);
             println!("init memo file({})", file_path);
-            init_memo_file(file_path);
+            if let Err(err) = init_memo_file(file_path) {
+                return Err(err);
+            }
             Ok("{}".to_string())
         }
     }
@@ -52,7 +55,7 @@ pub fn user_confirmation() -> bool {
     input == "yes" || input == "y"
 }
 
-pub fn str_to_json(s: &str) -> Result<Value> {
+pub fn str_to_json(s: &str) -> std::io::Result<Value> {
     let json_value: Result<Value> = serde_json::from_str(s);
     match json_value {
         Ok(v) => Ok(v),
@@ -64,8 +67,29 @@ pub fn str_to_json(s: &str) -> Result<Value> {
                 println!("Please fix the memo file yourself of initialize it");
                 panic!("force quit")
             }
-            init_memo_file(MEMO_FILE_PATH);
+            if let Err(err) = init_memo_file(MEMO_FILE_PATH) {
+                return Err(err);
+            }
             Ok(json!({}))
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    mod value_to_str_without_quotes {
+        use serde_json::json;
+
+        use crate::commands::utils::value_to_str_without_quotes;
+
+        #[test]
+        fn success() {
+            let v = json!("test");
+            assert_eq!(value_to_str_without_quotes(&v), "test");
+        }
+    }
+    mod init_memo_file {
+        #[test]
+        fn success() {}
     }
 }
