@@ -31,9 +31,7 @@ pub fn read_file(file_path: &str) -> std::io::Result<String> {
         Err(e) => {
             println!("{}", e);
             println!("init memo file({})", file_path);
-            if let Err(err) = init_memo_file(file_path) {
-                return Err(err);
-            }
+            init_memo_file(file_path)?;
             Ok("{}".to_string())
         }
     }
@@ -68,9 +66,7 @@ pub fn str_to_json(s: &str) -> std::io::Result<Value> {
                 println!("Please fix the memo file yourself of initialize it");
                 panic!("force quit")
             }
-            if let Err(err) = init_memo_file(MEMO_FILE_PATH) {
-                return Err(err);
-            }
+            init_memo_file(MEMO_FILE_PATH)?;
             Ok(json!({}))
         }
     }
