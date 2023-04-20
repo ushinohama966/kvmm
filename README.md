@@ -11,6 +11,7 @@
 - delete
 - get
 - list
+- clean
 
 ## TODO
 
