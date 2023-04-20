@@ -3,7 +3,7 @@ use serde_json::{json, Result, Value};
 use std::fs::File;
 use std::io::{self, Read, Write};
 
-// TODO: memoファイルのパスの指定の仕方を考える
+// TODO: 環境変数からファイルパスを指定
 pub const MEMO_FILE_PATH: &str = "/home/lkl/kvmemo/memo.json";
 
 pub fn value_to_str_without_quotes(v: &Value) -> String {
