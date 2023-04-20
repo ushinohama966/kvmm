@@ -77,7 +77,7 @@ mod tests {
     mod value_to_str_without_quotes {
         use serde_json::json;
 
-        use crate::commands::utils::value_to_str_without_quotes;
+        use crate::utils::value_to_str_without_quotes;
 
         #[test]
         fn success() {

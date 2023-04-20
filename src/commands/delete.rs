@@ -1,4 +1,4 @@
-use super::utils::{read_file, str_to_json, write_file, MEMO_FILE_PATH};
+use crate::utils::{read_file, str_to_json, write_file, MEMO_FILE_PATH};
 use serde_json::{json, Value};
 
 pub fn delete(k: String) {

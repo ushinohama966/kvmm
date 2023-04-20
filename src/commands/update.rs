@@ -1,6 +1,6 @@
 use serde_json::{json, Value};
 
-use super::utils::{
+use crate::utils::{
     read_file, str_to_json, value_to_str_without_quotes, write_file, MEMO_FILE_PATH,
 };
 

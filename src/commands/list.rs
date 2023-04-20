@@ -1,4 +1,4 @@
-use super::utils::{read_file, str_to_json, value_to_str_without_quotes, MEMO_FILE_PATH};
+use crate::utils::{read_file, str_to_json, value_to_str_without_quotes, MEMO_FILE_PATH};
 
 pub fn list(line: bool) {
     let file_str = read_file(MEMO_FILE_PATH).unwrap();

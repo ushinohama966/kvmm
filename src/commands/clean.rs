@@ -1,4 +1,4 @@
-use super::utils::{init_memo_file, user_confirmation, MEMO_FILE_PATH};
+use crate::utils::{init_memo_file, user_confirmation, MEMO_FILE_PATH};
 
 fn clean_memo_file() {
     match init_memo_file(MEMO_FILE_PATH) {

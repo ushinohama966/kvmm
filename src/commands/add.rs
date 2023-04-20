@@ -1,6 +1,6 @@
 use serde_json::{json, to_value, Value};
 
-use super::utils::{read_file, str_to_json, user_confirmation, write_file, MEMO_FILE_PATH};
+use crate::utils::{read_file, str_to_json, user_confirmation, write_file, MEMO_FILE_PATH};
 
 pub fn add(k: String, v: String) {
     let file_str = read_file(MEMO_FILE_PATH).unwrap();
