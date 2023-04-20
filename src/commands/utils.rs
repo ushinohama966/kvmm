@@ -14,9 +14,9 @@ pub fn value_to_str_without_quotes(v: &Value) -> String {
 }
 
 pub fn init_memo_file(file_path: &str) -> io::Result<()> {
-    let mut file = File::create(file_path).unwrap();
-    file.write_all("{}".as_bytes()).unwrap();
-    file.flush().unwrap();
+    let mut file = File::create(file_path)?;
+    file.write_all("{}".as_bytes())?;
+    file.flush()?;
     Ok(())
 }
 
@@ -24,8 +24,8 @@ pub fn read_file(file_path: &str) -> std::io::Result<String> {
     match File::open(file_path) {
         Ok(mut f) => {
             let mut contents = String::new();
-            f.read_to_string(&mut contents).unwrap();
-            f.flush().unwrap();
+            f.read_to_string(&mut contents)?;
+            f.flush()?;
             Ok(contents)
         }
         Err(e) => {
@@ -38,9 +38,9 @@ pub fn read_file(file_path: &str) -> std::io::Result<String> {
 }
 
 pub fn write_file(file_path: &str, buf: &[u8]) -> std::io::Result<()> {
-    let mut file = File::create(file_path).unwrap();
-    file.write_all(buf).unwrap();
-    file.flush().unwrap();
+    let mut file = File::create(file_path)?;
+    file.write_all(buf)?;
+    file.flush()?;
     Ok(())
 }
 
