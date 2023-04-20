@@ -4,7 +4,7 @@ use std::fs::File;
 use std::io::{self, Read, Write};
 
 // TODO: memoファイルのパスの指定の仕方を考える
-pub const MEMO_FILE_PATH: &str = "$HOME/project/kvmemo/memo.json";
+pub const MEMO_FILE_PATH: &str = "/home/lkl/kvmemo/memo.json";
 
 pub fn value_to_str_without_quotes(v: &Value) -> String {
     let mut options = to_string(v).unwrap();
