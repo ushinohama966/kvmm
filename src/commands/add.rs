@@ -1,9 +1,10 @@
 use serde_json::{json, to_value, Value};
 
-use crate::utils::{read_file, str_to_json, user_confirmation, write_file, MEMO_FILE_PATH};
+use crate::utils::{get_memo_file_path, read_file, str_to_json, user_confirmation, write_file};
 
 pub fn add(k: String, v: String) {
-    let file_str = read_file(MEMO_FILE_PATH).unwrap();
+    let filepath = get_memo_file_path().unwrap();
+    let file_str = read_file(&filepath).unwrap();
     let mut json_value: Value = str_to_json(&file_str).unwrap();
 
     match json_value.get_mut(&k) {
@@ -23,12 +24,12 @@ pub fn add(k: String, v: String) {
                 json!({ &k: old_value }),
                 json!({ &k: &v })
             );
-            write_file(MEMO_FILE_PATH, json_value.to_string().as_bytes()).unwrap();
+            write_file(&filepath, json_value.to_string().as_bytes()).unwrap();
         }
         None => {
             json_value[&k] = Value::String(v.clone());
             println!("add >>> {}", json!({ &k: &v }));
-            write_file(MEMO_FILE_PATH, json_value.to_string().as_bytes()).unwrap();
+            write_file(&filepath, json_value.to_string().as_bytes()).unwrap();
         }
     }
 }

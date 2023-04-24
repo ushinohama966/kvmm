@@ -1,8 +1,9 @@
-use crate::utils::{init_memo_file, user_confirmation, MEMO_FILE_PATH};
+use crate::utils::{get_memo_file_path, init_memo_file, user_confirmation};
 
 fn clean_memo_file() {
-    match init_memo_file(MEMO_FILE_PATH) {
-        Ok(_) => println!("clean memo file to {}", MEMO_FILE_PATH),
+    let filepath = get_memo_file_path().unwrap();
+    match init_memo_file(&filepath) {
+        Ok(_) => println!("clean memo file to {}", &filepath),
         Err(err) => println!("error: {}", err),
     }
 }

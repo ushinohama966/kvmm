@@ -1,10 +1,14 @@
 use serde_json::ser::to_string;
-use serde_json::{json, Result, Value};
+use serde_json::{json, Value};
+use std::env::{self, VarError};
 use std::fs::File;
 use std::io::{self, Read, Write};
 
-// TODO: 環境変数からファイルパスを指定
-pub const MEMO_FILE_PATH: &str = "/home/lkl/kvmemo/memo.json";
+const MEMO_FILE_PATH_ENV_KEY: &str = "MEMO_FILE_PATH";
+
+pub fn get_memo_file_path() -> Result<String, VarError> {
+    env::var(MEMO_FILE_PATH_ENV_KEY)
+}
 
 pub fn value_to_str_without_quotes(v: &Value) -> String {
     let mut options = to_string(v).unwrap();
@@ -55,7 +59,7 @@ pub fn user_confirmation() -> bool {
 }
 
 pub fn str_to_json(s: &str) -> std::io::Result<Value> {
-    let json_value: Result<Value> = serde_json::from_str(s);
+    let json_value: serde_json::Result<Value> = serde_json::from_str(s);
     match json_value {
         Ok(v) => Ok(v),
         Err(e) => {
@@ -66,7 +70,12 @@ pub fn str_to_json(s: &str) -> std::io::Result<Value> {
                 println!("Please fix the memo file yourself of initialize it");
                 panic!("force quit")
             }
-            init_memo_file(MEMO_FILE_PATH)?;
+            match get_memo_file_path() {
+                Ok(v) => {
+                    init_memo_file(&v)?;
+                }
+                Err(e) => return Err(std::io::Error::new(std::io::ErrorKind::NotFound, e)),
+            }
             Ok(json!({}))
         }
     }
