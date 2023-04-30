@@ -36,6 +36,8 @@ jobs:
         run: echo "{}" >> $RELEASE_DIR_NAME/memo.json
       - name: create tar.gz
         run: tar -zcvf $RELEASE_DIR_NAME.tar.gz $RELEASE_DIR_NAME
+      - name: Test
+        run: cat $RELEASE_DIR_NAME.tar.gz
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
