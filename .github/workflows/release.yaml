@@ -10,7 +10,7 @@ permissions:
 
 env:
   BUILD_RELEASE_PATH: ./target/release/kvmm
-  RELEASE_DIR_NAME: release
+  RELEASE_DIR_NAME: kvmm
 
 jobs:
   release:
@@ -43,4 +43,4 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            release.tar.gz
+            kvmm.tar.gz
