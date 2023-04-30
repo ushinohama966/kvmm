@@ -7,7 +7,7 @@ use crate::utils::{
 
 pub fn get(k: String) {
     let filepath = env::var(MEMO_FILE_PATH_ENV_KEY).unwrap();
-    let file_str = read_file(&filepath).unwrap();
+    let file_str = read_file(filepath.clone().into()).unwrap();
     let json_res = str_to_json(&file_str);
 
     if let Err(e) = &json_res {
@@ -19,7 +19,7 @@ pub fn get(k: String) {
             println!("Please fix the memo file yourself of initialize it");
             panic!("force quit")
         }
-        if let Err(e) = init_memo_file(&filepath) {
+        if let Err(e) = init_memo_file(filepath.into()) {
             println!("{e}");
             return;
         }

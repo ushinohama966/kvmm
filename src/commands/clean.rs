@@ -4,8 +4,8 @@ use crate::utils::{init_memo_file, user_confirmation, MEMO_FILE_PATH_ENV_KEY};
 
 fn clean_memo_file() {
     let filepath = env::var(MEMO_FILE_PATH_ENV_KEY).unwrap();
-    match init_memo_file(&filepath) {
-        Ok(_) => println!("clean memo file to {}", &filepath),
+    match init_memo_file(filepath.clone().into()) {
+        Ok(_) => println!("clean memo file to {}", filepath.as_str()),
         Err(err) => println!("error: {}", err),
     }
 }

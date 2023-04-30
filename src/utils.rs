@@ -2,6 +2,7 @@ use serde_json::ser::to_string;
 use serde_json::Value;
 use std::fs::File;
 use std::io::{self, BufRead, Read, Write};
+use std::path::PathBuf;
 
 pub const MEMO_FILE_PATH_ENV_KEY: &str = "MEMO_FILE_PATH";
 
@@ -12,15 +13,15 @@ pub fn value_to_str_without_quotes(v: &Value) -> String {
     options
 }
 
-pub fn init_memo_file(file_path: &str) -> io::Result<()> {
-    let mut file = File::create(file_path)?;
+pub fn init_memo_file(file_path: PathBuf) -> io::Result<()> {
+    let mut file = File::create::<PathBuf>(file_path)?;
     file.write_all("{}".as_bytes())?;
     file.flush()?;
     Ok(())
 }
 
-pub fn read_file(file_path: &str) -> std::io::Result<String> {
-    match File::open(file_path) {
+pub fn read_file(file_path: PathBuf) -> std::io::Result<String> {
+    match File::open::<PathBuf>(file_path.clone()) {
         Ok(mut f) => {
             let mut contents = String::new();
             f.read_to_string(&mut contents)?;
@@ -29,14 +30,14 @@ pub fn read_file(file_path: &str) -> std::io::Result<String> {
         }
         Err(e) => {
             println!("{}", e);
-            println!("init memo file({})", file_path);
+            println!("init memo file({})", file_path.to_str().unwrap());
             init_memo_file(file_path)?;
             Ok("{}".to_string())
         }
     }
 }
 
-pub fn write_file(file_path: &str, buf: &[u8]) -> std::io::Result<()> {
+pub fn write_file(file_path: PathBuf, buf: &[u8]) -> std::io::Result<()> {
     let mut file = File::create(file_path)?;
     file.write_all(buf)?;
     file.flush()?;
@@ -71,73 +72,85 @@ mod tests {
     }
     mod init_memo_file {
 
+        use std::path::PathBuf;
+
         use crate::utils::init_memo_file;
 
         #[test]
         fn should_success() {
             let file_path = "./test.json";
-            let result = init_memo_file(file_path);
+            let result = init_memo_file(file_path.into());
             assert_eq!(result.unwrap(), ());
-            assert_eq!(std::fs::remove_file(file_path).unwrap(), ())
+            assert_eq!(
+                std::fs::remove_file::<PathBuf>(file_path.into()).unwrap(),
+                ()
+            )
         }
         #[test]
         fn should_error_when_invvalid_path() {
             let file_path = "./test/test.json";
-            let result = init_memo_file(file_path);
+            let result = init_memo_file(file_path.into());
             assert!(result.is_err());
         }
     }
     mod read_file {
         use std::io::Write;
+        use std::path::PathBuf;
 
         use crate::utils::read_file;
 
         #[test]
         fn should_success() {
             let file_path = "./test.txt";
-            let test_file = std::fs::File::create(file_path);
+            let test_file = std::fs::File::create::<PathBuf>(file_path.into());
             assert!(test_file.is_ok());
             let test_value = "test";
             assert_eq!(
                 test_file.unwrap().write_all(test_value.as_bytes()).unwrap(),
                 ()
             );
-            let result = read_file(file_path);
+            let result = read_file(file_path.into());
             assert_eq!(result.unwrap(), test_value);
-            assert_eq!(std::fs::remove_file(file_path).unwrap(), ())
+            assert_eq!(
+                std::fs::remove_file::<PathBuf>(file_path.into()).unwrap(),
+                ()
+            )
         }
         #[test]
         fn should_error_when() {
             let file_path = "./test/test.txt";
-            let result = read_file(file_path);
+            let result = read_file(file_path.into());
             assert!(result.is_err());
         }
     }
     mod write_file {
-        use std::io::Read;
+        use std::{io::Read, path::PathBuf};
 
         use crate::utils::write_file;
 
         #[test]
         fn should_success() {
             let file_path = "./test.json";
-            assert!(std::fs::File::create(file_path).is_ok());
+            assert!(std::fs::File::create::<PathBuf>(file_path.into()).is_ok());
             let test_value = "test";
-            let result = write_file(file_path, test_value.as_bytes());
+            let result = write_file(file_path.into(), test_value.as_bytes());
             assert_eq!(result.unwrap(), ());
             let mut act_file_str = String::new();
-            assert!(std::fs::File::open(file_path)
+            assert!(std::fs::File::open::<PathBuf>(file_path.into())
                 .unwrap()
                 .read_to_string(&mut act_file_str)
                 .is_ok());
             assert_eq!(act_file_str, test_value);
-            assert_eq!(std::fs::remove_file(file_path).unwrap(), ())
+            assert_eq!(
+                std::fs::remove_file::<PathBuf>(file_path.into()).unwrap(),
+                ()
+            )
         }
         #[test]
         fn should_error_when_invalid_file_path() {
             let file_path = "./test/test.json";
             let test_value = "test";
-            let result = write_file(file_path, test_value.as_bytes());
+            let result = write_file(file_path.into(), test_value.as_bytes());
             assert!(result.is_err());
         }
     }

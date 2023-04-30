@@ -9,7 +9,7 @@ use crate::utils::{
 
 pub fn update(k: String, v: String) {
     let filepath = env::var(MEMO_FILE_PATH_ENV_KEY).unwrap();
-    let file_str = read_file(&filepath).unwrap();
+    let file_str = read_file(filepath.clone().into()).unwrap();
     let json_res = str_to_json(&file_str);
 
     if let Err(e) = &json_res {
@@ -21,7 +21,7 @@ pub fn update(k: String, v: String) {
             println!("Please fix the memo file yourself of initialize it");
             panic!("force quit")
         }
-        if let Err(e) = init_memo_file(&filepath) {
+        if let Err(e) = init_memo_file(filepath.clone().into()) {
             println!("{e}");
             return;
         }
@@ -42,7 +42,7 @@ pub fn update(k: String, v: String) {
                 json!({ &k: old_value }),
                 json!({ &k: &v })
             );
-            write_file(&filepath, json_value.to_string().as_bytes()).unwrap();
+            write_file(filepath.into(), json_value.to_string().as_bytes()).unwrap();
         }
         None => {
             println!("{} not found", &k);
