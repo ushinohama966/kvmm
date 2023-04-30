@@ -43,4 +43,4 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            $RELEASE_DIR_NAME.tar.gz
+            release.tar.gz
