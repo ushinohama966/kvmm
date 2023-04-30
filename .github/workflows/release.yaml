@@ -11,12 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Rust
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: stable
+      - name: Test
+        run: cat ./target/release/kvmm
       - name: Build
         run: cargo build --release
       - name: Upload Release Asset
