@@ -28,7 +28,7 @@ jobs:
       - name: Test
         run: cat $RELEASE_PATH
       - name: move kvmm
-        run: mv . $RELEASE_PATH
+        run: mv $RELEASE_PATH .
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
