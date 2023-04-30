@@ -1,14 +1,39 @@
-## kvmemo
+## What is kvmm?
 
-*概要*
+kvmm is a tool that can save in K-V type on the command line
 
-これはコマンドから K-V 型で値を保存する CLI ツールです。
+## Installation
 
-## 主な機能
+**for x86 linux**
 
-- add
-- update
-- delete
-- get
-- list
-- clean
+Install kvmm
+
+```
+wget https://github.com/ushinohama966/kvmm/releases/download/[version]/kvmm.tar.gz
+tar -zxvf kvmm.tar.gz
+rm kvmm.tar.gz
+```
+
+Set environment variable
+
+```
+export MEMO_FILE_PATH=[path/to/memo.json]
+```
+
+## Samples
+
+<!-- add, get, listのサンプル -->
+
+Add a value
+
+```
+> kvmm add -k name -v john
+add >>> {"name":"john"}
+```
+
+List values
+
+```
+> kvmm list
+{"name":"john"}
+```
