@@ -54,10 +54,14 @@ jobs:
           target: ${{ matrix.platform.target }}
           args: "--locked --release"
           strip: true
+      - name: mkdir
+        run: mkdir kvmm
       - name: init memo.json
-        run: echo "{}" >> ${{ matrix.platform.bin_path }}/memo.json
+        run: echo "{}" >> kvmm/memo.json
+      - name: move bin kvmm
+        run: mv ${{ matrix.platform.bin_path }}/kvmm kvmm
       - name: create tar.gz
-        run: tar -zcvf ${{ matrix.platform.name }} ${{ matrix.platform.bin_path }}/kvmm
+        run: tar -zcvf ${{ matrix.platform.name }} kvmm
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
