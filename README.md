@@ -10,7 +10,7 @@ Install kvmm
 
 ```
 wget https://github.com/ushinohama966/kvmm/releases/download/[version]/kvmm-[target].tar.gz
-tar -zxvf kvmm.tar.gz
+tar -zxvf kvmm-[target].tar.gz
 rm kvmm-[target].tar.gz
 ```
 
