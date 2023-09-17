@@ -9,9 +9,9 @@ kvmm is a tool that can save in K-V type on the command line
 Install kvmm
 
 ```
-wget https://github.com/ushinohama966/kvmm/releases/download/[version]/kvmm.tar.gz
+wget https://github.com/ushinohama966/kvmm/releases/download/[version]/kvmm-[target].tar.gz
 tar -zxvf kvmm.tar.gz
-rm kvmm.tar.gz
+rm kvmm-[target].tar.gz
 ```
 
 Set environment variable
