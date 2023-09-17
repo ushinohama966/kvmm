@@ -1,0 +1,27 @@
+[package]
+name = "kvmm"
+version = "0.1.0"
+edition = "2021"
+
+[profile.release]
+opt-level = 3
+debug = false
+Ito = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+cross = "0.1.16"
+
+[dev-dependencies]
+mockall = "0.11.2"
+
+[dependencies]
+clap = { version = "4.2.2", features = ["derive"] }
+serde_json = "1.0"
+
+[target.'cfg(target_arch = "x86_64")'.build]
+target = "x86_64-unknown-linux-gnu"
+
+[target.'cfg(target_arch = "arm")'.build]
+target = "arm-unknown-linux-gnueabihf"

@@ -1,0 +1,66 @@
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
+
+jobs:
+  release:
+    name: Release - ${{ matrix.platform.release_for }}
+    strategy:
+      matrix:
+        platform:
+          - release_for: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            bin_path: ./target/x86_64-unknown-linux-gnu/release
+            name: kvmm-x86_64-unknown-linux-gnu.tar.gz
+            command: both
+          
+          - release_for: x86_64-unknown-linux-musl
+            os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            bin_path: ./target/x86_64-unknown-linux-musl/release
+            name: kvmm-x86_64-unknown-linux-musl.tar.gz
+            command: both
+          
+          - release_for: aarch64-unknown-linux-gnu
+            os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            bin_path: ./target/aarch64-unknown-linux-gnu/release
+            name: kvmm-aarch64-unknown-linux-gnu.tar.gz
+            command: both
+
+          - release_for: x86_64-apple-darwin
+            os: macOS-latest
+            target: x86_64-apple-darwin
+            name: kvmm-x86_64-apple-darwin.tar.gz
+            bin_path: ./target/x86_64-apple-darwin/release
+            command: both
+
+    runs-on: ${{ matrix.platform.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build binary
+        uses: houseabsolute/actions-rust-cross@v0
+        with:
+          command: ${{ matrix.platform.command }}
+          target: ${{ matrix.platform.target }}
+          args: "--locked --release"
+          strip: true
+      - name: init memo.json
+        run: echo "{}" >> ${{ matrix.platform.bin_path }}/memo.json
+      - name: create tar.gz
+        run: tar -zcvf ${{ matrix.platform.name }} ${{ matrix.platform.bin_path }}/kvmm
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            ${{ matrix.platform.name }}
