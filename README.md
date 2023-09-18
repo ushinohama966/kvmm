@@ -4,7 +4,7 @@ kvmm is a tool that can save in K-V type on the command line
 
 ## Installation
 
-**for x86 linux**
+**for linux**
 
 Install kvmm
 
