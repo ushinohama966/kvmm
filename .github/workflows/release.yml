@@ -1,7 +1,7 @@
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -62,9 +62,8 @@ jobs:
         run: mv ${{ matrix.platform.bin_path }}/kvmm kvmm
       - name: create tar.gz
         run: tar -zcvf ${{ matrix.platform.name }} kvmm
-      - name: Upload Release Asset
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Release | Upload artifacts
+        uses: actions/upload-artifact@v3
         with:
-          files: |
-            ${{ matrix.platform.name }}
+          name: ${{ matrix.platform.name }}
+          path: ${{ matrix.platform.name }}
