@@ -1,7 +1,7 @@
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*.*.*'
 
 permissions:
   contents: write
@@ -54,16 +54,15 @@ jobs:
           target: ${{ matrix.platform.target }}
           args: "--locked --release"
           strip: true
-      - name: mkdir
-        run: mkdir kvmm
-      - name: init memo.json
-        run: echo "{}" >> kvmm/memo.json
-      - name: move bin kvmm
-        run: mv ${{ matrix.platform.bin_path }}/kvmm kvmm
-      - name: create tar.gz
-        run: tar -zcvf ${{ matrix.platform.name }} kvmm
-      - name: Release | Upload artifacts
-        uses: actions/upload-artifact@v3
+      - name: Setup and create a compressed file
+        run: |
+          mkdir kvmm
+          echo "{}" >> kvmm/memo.json
+          mv ${{ matrix.platform.bin_path }}/kvmm kvmm
+          tar -zcvf ${{ matrix.platform.name }} kvmm
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: ${{ matrix.platform.name }}
-          path: ${{ matrix.platform.name }}
+          files: |
+            ${{ matrix.platform.name }}
