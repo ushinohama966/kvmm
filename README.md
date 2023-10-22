@@ -33,5 +33,7 @@ List values
 
 ```
 > kvmm list
-{"name":"john"}
+1 items found.
+---
+key
 ```
