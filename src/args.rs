@@ -32,7 +32,7 @@ pub enum Commands {
     },
     List {
         #[arg(short, long)]
-        line: bool,
+        all: bool,
     },
     Get {
         key: String,
