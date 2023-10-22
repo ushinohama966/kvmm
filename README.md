@@ -26,14 +26,14 @@ Add a value
 
 ```
 > kvmm add -k name -v john
-1 items found.
----
-key
+add >>> {"name":"john"}
 ```
 
 List values
 
 ```
 > kvmm list
-{"name":"john"}
+1 items found.
+---
+key
 ```
