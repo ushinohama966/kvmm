@@ -1,6 +1,6 @@
 [package]
 name = "kvmm"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 authors = ["ushinohama966@gmail.com"]
 description = "kvmm is a tool that can save in K-V type on the command line"
