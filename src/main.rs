@@ -26,5 +26,8 @@ fn main() {
         args::Commands::Clean { force } => {
             commands::clean::clean(force);
         }
+        args::Commands::Version {} => {
+            commands::version::version();
+        }
     }
 }
