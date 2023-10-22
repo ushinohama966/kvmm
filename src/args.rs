@@ -35,7 +35,6 @@ pub enum Commands {
         line: bool,
     },
     Get {
-        #[arg(short, long)]
         key: String,
     },
     Clean {
