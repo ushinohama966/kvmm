@@ -9,6 +9,9 @@ permissions:
 
 name: release-please
 
+env:
+  PACKAGE_NAME: memo
+
 jobs:
   release:
     name: Release - ${{ matrix.platform.release_for }}
@@ -58,8 +61,8 @@ jobs:
         run: |
           mkdir kvmm
           echo "{}" >> kvmm/memo.json
-          mv ${{ matrix.platform.bin_path }}/kvmm kvmm
-          tar -zcvf ${{ matrix.platform.name }} kvmm
+          mv ${{ matrix.platform.bin_path }}/kvmm $PACKAGE_NAME
+          tar -zcvf ${{ matrix.platform.name }} $PACKAGE_NAME
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
