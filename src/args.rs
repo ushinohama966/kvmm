@@ -31,8 +31,8 @@ pub enum Commands {
         key: String,
     },
     List {
-        #[arg(short, long)]
-        all: bool,
+        #[arg(short = 'k', long, help = "Show only keys without values")]
+        keys_only: bool,
     },
     Get {
         key: String,

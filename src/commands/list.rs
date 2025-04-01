@@ -4,7 +4,7 @@ use crate::utils::{
     init_memo_file, read_file, str_to_json, user_confirmation, MEMO_FILE_PATH_ENV_KEY,
 };
 
-pub fn list(all: bool) {
+pub fn list(keys_only: bool) {
     let filepath = env::var(MEMO_FILE_PATH_ENV_KEY).unwrap();
     let file_str = read_file(filepath.clone().into()).unwrap();
     let json_res = str_to_json(&file_str);
@@ -28,10 +28,10 @@ pub fn list(all: bool) {
     let json_map = json_value.as_object().unwrap();
     println!("{} items found.\n---", json_map.len());
     for (k, v) in json_map.iter() {
-        if all {
-            println!("{}={}", k, v);
-        } else {
+        if keys_only {
             println!("{}", k);
+        } else {
+            println!("{}={}", k, v);
         }
     }
 }

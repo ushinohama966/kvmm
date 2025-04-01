@@ -17,8 +17,8 @@ fn main() {
         args::Commands::Delete { key } => {
             commands::delete::delete(key);
         }
-        args::Commands::List { all } => {
-            commands::list::list(all);
+        args::Commands::List { keys_only } => {
+            commands::list::list(keys_only);
         }
         args::Commands::Get { key } => {
             commands::get::get(key);
