@@ -9,7 +9,6 @@ on:
 
 jobs:
   lint:
-    if: ${{ github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch' }} 
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Crate
@@ -27,13 +26,12 @@ jobs:
     - name: Run clippy
       run: cargo clippy -- -D warnings
 
-  # test:
-  #   if: ${{ github.event.pull_request.merged == true }} || github.event_name == 'workflow_dispatch'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout Crate
-  #     uses: actions/checkout@v3
-  #   - name: Set Toolchain
-  #     uses: dtolnay/rust-toolchain@stable
-  #   - name: Run test
-  #     run: cargo test
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Crate
+      uses: actions/checkout@v3
+    - name: Set Toolchain
+      uses: dtolnay/rust-toolchain@stable
+    - name: Run test
+      run: cargo test
